@@ -88,16 +88,15 @@ public class exam1 {
 						System.out.println("작성자 :" + target.getNickname());
 						System.out.println("조회수 :" + target.getHit());
 						System.out.println("===============");
+						
 						while(true) {
 							System.out.println("상세보기 기능을 선택해주세요(1. 댓글 등록, 2. 좋아요, 3. 수정, 4. 삭제, 5. 목록으로) : ");
-							int choice = sc.nextInt();
-							if (choice == 1) {
+							int readCmd = sc.nextInt();
+							if (readCmd == 1) {
 								System.out.println("[댓글 기능]");
-								break;
-							} if (choice == 2) {
+							} if (readCmd == 2) {
 								System.out.println("[좋아요 기능]");
-								break;
-							} if (choice == 3) {	
+							} if (readCmd == 3) {	
 								System.out.println("[수정 기능]");
 								System.out.println("게시물 제목을 입력해주세요 :");
 								String newTitle = sc.next();
@@ -107,25 +106,24 @@ public class exam1 {
 
 								target.setTitle(newTitle);
 								target.setBody(newBody);
-								break;
-							} if (choice == 4) {
+							} if (readCmd == 4) {
 								System.out.println("[삭제 기능]");
 								dao.removeArticle(target);
-								break;
-							} if (choice == 5) {
-								System.out.println("[목록으로 기능]");
+							} if (readCmd == 5) {
 								break;
 							}
-						}	
+	
+						}
 					}
 				}
 				if (cmd.equals("search")) {
 					System.out.println("검색 항목을 선택해주세요 (1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자) : ");
-					dao.choice = sc.nextInt();
+					int flag = sc.nextInt();
 					System.out.println("검색 키워드를 입력해주세요 : ");
 					String keyword = sc.next();
-										
-					ArrayList<Article> searchedArticles = dao.getSearchedArticlesByAll(keyword);
+					ArrayList<Article> searchedArticles;
+					
+					searchedArticles = dao.getSearchedArticlesByTitle(flag, keyword);
 
 					printArticles(searchedArticles);
 				}

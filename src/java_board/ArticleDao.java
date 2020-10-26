@@ -41,34 +41,16 @@ public class ArticleDao {
 		return time1;
 	}
 	
-	public ArrayList<Article> getSearchedArticlesByAll(String keyword) {
+	public ArrayList<Article> getSearchedArticlesByTitle(int flag, String keyword) {
 
 		ArrayList<Article> searchedArticles = new ArrayList<>();
 
 		for(int i = 0; i < articles.size(); i++) {
 			Article article = articles.get(i);
-			String str = article.getTitle(); // 각 게시물 제목
-			String abc = article.getBody(); // 각 게시물 내용
-			String afc = article.getNickname(); // 각 게시물 작성자
-			while(true) {
-				if (choice == 1) {
-					if (str.contains(keyword)) {
-						searchedArticles.add(article);
-					}	
-				} if (choice == 2) {
-					if (abc.contains(keyword)) {
-						searchedArticles.add(article);
-					}
-				} if (choice == 3) {
-					if (str.contains(keyword)||abc.contains(keyword)) {
-						searchedArticles.add(article);
-					}
-				} if (choice == 4) {
-					if (afc.contains(keyword)) {
-						searchedArticles.add(article);
-					}
-				} 
-			}
+			String str = article.getPropertiesByFlag(flag);
+			if (str.contains(keyword)) {
+				searchedArticles.add(article);
+			}	
 		}
 
 		return searchedArticles;
