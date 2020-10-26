@@ -5,21 +5,21 @@ public class Article {
 		private int id;
 		private String title;
 		private String body;
-		private String name;
-		private String datestr;
-		private int views;
+		private String regDate;
+		private String nickname;
+		private int hit;
+
 
 		public Article() {
 
 		}
 
-		public Article(int id, String title, String body, String name, String datestr, int views) {
+		public Article(int id, String title, String body, String nickname, String regDate) {
 			this.id = id;
 			this.title = title;
 			this.body = body;
-			this.name = name;
-			this.datestr = datestr;
-			this.views = views;
+			this.regDate = regDate;
+			this.nickname = nickname;
 		}
 
 		public int getId() {
@@ -40,28 +40,28 @@ public class Article {
 		public void setBody(String body) {
 			this.body = body;
 		}
-
-		public String getName() {
-			return name;
+		
+		public String getRegDate() {
+			return regDate;
 		}
 
-		public void setName(String name) {
-			this.name = name;
+		public void setRegDate(String regDate) {
+			this.regDate = regDate;
 		}
 
-		public String getDatestr() {
-			return datestr;
+		public int getHit() {
+			return hit;
 		}
 
-		public void setDatestr(String datestr) {
-			this.datestr = datestr;
+		public void setHit(int hit) {
+			this.hit = hit;
 		}
 
-		public int getViews() {
-			return views;
+		public String getNickname() {
+			return nickname;
 		}
 
-		public void setViews(int views) {
-			this.views = views;
-		}	
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
+		}
 	}
