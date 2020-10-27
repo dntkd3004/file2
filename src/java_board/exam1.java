@@ -94,6 +94,17 @@ public class exam1 {
 							int readCmd = sc.nextInt();
 							if (readCmd == 1) {
 								System.out.println("[댓글 기능]");
+								System.out.println("댓글 내용을 입력해주세요 :");
+								String replyBody = sc.next();
+								System.out.println("==== " + target.getId() + " ====");
+								System.out.println("번호 : " + target.getId());
+								System.out.println("제목 : " + target.getTitle());
+								System.out.println("내용 : " + target.getBody());
+								System.out.println("===============");
+								System.out.println("------- 댓글-------");
+								System.out.println("내용 : " + replyBody);
+//								System.out.println("작성자 :" + );
+//								System.out.println("등록날짜 :" + );
 							} if (readCmd == 2) {
 								System.out.println("[좋아요 기능]");
 							} if (readCmd == 3) {	
