@@ -1,9 +1,9 @@
 package java_board;
 
-public class Reply {
+public class Member {
 	private int id;
-	private int parentId;
-	private String body;
+	private String loginId;
+	private String loginPw;
 	private String nickname;
 	private String regDate;
 	
@@ -13,17 +13,17 @@ public class Reply {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getParentId() {
-		return parentId;
+	public String getLoginId() {
+		return loginId;
 	}
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
-	public String getBody() {
-		return body;
+	public String getLoginPw() {
+		return loginPw;
 	}
-	public void setBody(String body) {
-		this.body = body;
+	public void setLoginPw(String loginPw) {
+		this.loginPw = loginPw;
 	}
 	public String getNickname() {
 		return nickname;
@@ -37,6 +37,4 @@ public class Reply {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	
-	
 }

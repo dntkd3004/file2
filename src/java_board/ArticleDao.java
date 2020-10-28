@@ -6,9 +6,8 @@ import java.util.Date;
 
 public class ArticleDao {
 
-	private static ArrayList<Article> articles;
+	private ArrayList<Article> articles;
 	private int no = 4;
-	int choice;
 
 	public ArticleDao() {
 		articles = new ArrayList<>();
@@ -41,7 +40,7 @@ public class ArticleDao {
 		return time1;
 	}
 	
-	public ArrayList<Article> getSearchedArticlesByTitle(int flag, String keyword) {
+	public ArrayList<Article> getSearchedArticlesByFlag(int flag, String keyword) {
 
 		ArrayList<Article> searchedArticles = new ArrayList<>();
 
@@ -57,7 +56,7 @@ public class ArticleDao {
 
 	}
 	// Article 버전
-	public static Article getArticleById(int targetId) {
+	public Article getArticleById(int targetId) {
 		for (int i = 0; i < articles.size(); i++) {
 			int id = articles.get(i).getId();
 			if (id == targetId) {
@@ -67,7 +66,7 @@ public class ArticleDao {
 
 		return null;
 	}
-
+	
 	public ArrayList<Article> getArticles() {
 		return articles;
 	}

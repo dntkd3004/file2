@@ -3,7 +3,7 @@ package java_board;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class time {
+public class Test2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub		
@@ -27,5 +27,5 @@ public class time {
 		System.out.println(str.contains("apple")); // true
 			
 	}
-}
 
+}

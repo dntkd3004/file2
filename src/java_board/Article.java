@@ -9,7 +9,6 @@ public class Article {
 		private String nickname;
 		private int hit;
 
-
 		public Article() {
 
 		}
