@@ -16,7 +16,7 @@ public class Test {
 		
 		while (true) {
 			System.out.print("명령어 입력 : ");
-			String cmd = sc.next();
+			String cmd = sc.nextLine();
 			if (cmd.equals("exit")) {
 				System.out.println("종료");
 				break;
@@ -123,39 +123,72 @@ public class Test {
 				printArticles(searchedArticles);
 			}
 			if (cmd.equals("signup")) {
-				System.out.println("==== 회원 가입을 진행합니다 ====");
+				System.out.println("======== 회원가입을 진행합니다.========");
 				Member m = new Member();
-				
-				System.out.println("아이디를 입력해주세요 : ");
+
+				System.out.println("아이디를 입력해주세요 :");
 				String id = sc.next();
-				m.getLoginId(id);
-				
-				System.out.println("비밀번호를 입력해주세요 : ");
+				m.setLoginId(id);
+
+				System.out.println("비밀번호를 입력해주세요 :");
 				String pw = sc.next();
-				m.getLoginPw(pw);
-				
-				System.out.println("닉네임을 입력해주세요 : ");
+				m.setLoginPw(pw);
+
+				System.out.println("닉네임을 입력해주세요 :");
 				String nick = sc.next();
-				m.getNickname(nick);				
-				
+				m.setNickname(nick);
+
 				memberdao.insertMember(m);
-				System.out.println("==== 회원가입이 완료되었습니다. ====");
+				System.out.println("======== 회원가입이 완료되었습니다.========");
 			}
-			if (cmd.equals("signin")) {
-				ArrayList<Article> signups = articleDao.getSignups();
-				System.out.println("아이디 : ");
-				String targetid = sc.nextLine();
-				System.out.println("비밀번호 : ");
-				String targetpw = sc.nextLine();
-				Article target = articleDao.getSignupById(targetid, targetpw);
-				if (target == null) {
-					System.out.println("비밀번호를 틀렸거나 잘못된 회원정보입니다.");
-				} else {
-					System.out.println(target.getSignnick() + "님 환영합니다!");
-				}
-//				if() {
-//					
+//			if (cmd.equals("signin")) {
+//				ArrayList<Member> signid = member.getLoginId();
+//				ArrayList<Member> signpw = member.getLoginPw();
+//				System.out.println("아이디 : ");
+//				String signid = sc.next();
+//				System.out.println("비밀번호 : ");
+//				String signpw = sc.next();
+//				Member member = memberdao.getMemberBylogin(signid, signpw);
+//				if (member == null) {
+//					System.out.println("비밀번호를 틀렸거나 잘못된 회원정보입니다.");
+//				} else {
+//					System.out.println(member.getNickname() + "님 환영합니다!");
 //				}
+//			}
+			if (cmd.equals("help")) {
+				System.out.println("article [add: 게시물 추가 / list : 게시물 목록 조회 / read : 게시물 조회 / search : 검색]");
+				System.out.println("member [signup : 회원가입 / signin : 로그인 / findpass : 비밀번호 찾기 / findid : 아이디 찾기 / logout : 로그아웃 / myinfo : 나의 정보 확인및 수정]");
+			}
+			if (cmd.equals("article list")) {
+				System.out.println("[게시물 목록]");
+			}
+			if (cmd.equals("article add")) {
+				System.out.println("로그인 후 사용 가능합니다.");
+			}
+			if (cmd.equals("article read")) {
+				System.out.println("[게시물 조회]");
+			}
+			if (cmd.equals("article search")) {
+				System.out.println("[게시물 검색]");
+			}
+//			if (cmd.equals("member signup")) {
+//				System.out.println("["+member.getNickname()+" 회원가입]");
+//			}
+//			if (cmd.equals("member signin")) {
+//				System.out.println("["+member.getNickname()+" 로그인]");
+//				System.out.println(member.getNickname()+"님 안녕하세요!");
+//			}
+			if (cmd.equals("member findpass")) {
+				System.out.println("[비밀번호 찾기]");
+			}
+			if (cmd.equals("member findid")) {
+				System.out.println("[아이디 찾기]");
+			}
+			if (cmd.equals("member logout")) {
+				System.out.println("로그인이 필요한 기능입니다.");
+			}
+			if (cmd.equals("member myinfo")) {
+				System.out.println("로그인 후 사용 가능합니다.");
 			}
 		}	
 	}

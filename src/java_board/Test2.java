@@ -1,31 +1,20 @@
 package java_board;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Scanner;
 
 public class Test2 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub		
-		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy.MM.dd");
-		Date time = new Date();
-		String time1 = format1.format(time);
-		System.out.println(time1);
-		//게시물 제목
-		String str = "사과(apple) 가격은 개당 1,000원 입니다.";
-
-
-		System.out.println(str.contains("aaa")); 
-		// contains 사용
-		if (str.contains("aaa")) {// 검색키워드와 비교
-			System.out.println("contain - 포함");
-		} else {
-			System.out.println("contain - 미포함");
-		}
-
-		System.out.println(str.contains("APPLE")); // false
-		System.out.println(str.contains("apple")); // true
-			
+		Scanner sc = new Scanner(System.in);
+		
+		String cmd = sc.nextLine();
+		System.out.println(cmd);
+		
+		int a = Integer.parseInt("123");//문자열된 숫자를 숫자로 변환
+		sc.nextLine(); //클리어 작업
+		
+		String cmd2 = sc.nextLine();
+		System.out.println(cmd2);
 	}
 
 }

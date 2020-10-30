@@ -10,13 +10,6 @@ public class MemberDao {
 
 	public MemberDao() {
 		members = new ArrayList<>();
-//		Article a1 = new Article(1, "안녕하세요", "내용1", "익명", getCurrentDate());
-//		Article a2 = new Article(2, "반갑습니다.", "내용2", "익명", getCurrentDate());
-//		Article a3 = new Article(3, "안녕", "내용3", "익명", getCurrentDate());
-//
-//		articles.add(a1);
-//		articles.add(a2);
-//		articles.add(a3);
 	}
 
 	public void insertMember(Member m) {
@@ -26,7 +19,7 @@ public class MemberDao {
 
 		members.add(m);
 	}
-	
+
 	private static String getCurrentDate() {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd");
 		Date time = new Date();
@@ -34,19 +27,22 @@ public class MemberDao {
 
 		return time1;
 	}
-	
-	public ArrayList<Reply> getReplies() {
-		return replies;
-	}
-
-	public ArrayList<Reply> getRepliesByParentId(int parentId) {
-		ArrayList<Reply> searchedReplies = new ArrayList<>();
-		for (int i = 0; i < replies.size(); i++) {
-			Reply reply = replies.get(i);
-			if (reply.getParentId() == parentId) {
-				searchedReplies.add(reply);
+	public Member getMemberBylogin(String targetid, String targetpw) {
+		for (int i = 0; i < members.size(); i++) {
+			String id = members.get(i).getLoginId();
+			for(int j = 0; j < members.size(); j++) {
+				String pw = members.get(j).getLoginPw();
+				if (id.contains(targetid)) {
+					if(pw.contains(targetpw)) {
+						return members.get(i);
+					}	
+				}
 			}
 		}
-		return searchedReplies;
-	} 
+		return null;
+	}
+	
+	public ArrayList<Member> getMembers() {
+		return members;
+	}
 }

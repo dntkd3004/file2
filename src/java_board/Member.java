@@ -6,7 +6,7 @@ public class Member {
 	private String loginPw;
 	private String nickname;
 	private String regDate;
-	
+
 	public int getId() {
 		return id;
 	}
