@@ -27,22 +27,17 @@ public class MemberDao {
 
 		return time1;
 	}
-	public Member getMemberBylogin(String targetid, String targetpw) {
-		for (int i = 0; i < members.size(); i++) {
-			String id = members.get(i).getLoginId();
-			for(int j = 0; j < members.size(); j++) {
-				String pw = members.get(j).getLoginPw();
-				if (id.contains(targetid)) {
-					if(pw.contains(targetpw)) {
-						return members.get(i);
-					}	
-				}
+
+	public Member getMemberBygetMemberByLoginIdAndLoginPw(String id, String pw) {
+		
+		for(int i = 0 ; i < members.size(); i++) {
+			Member m = members.get(i);
+			if(m.getLoginId().equals(id) && m.getLoginPw().equals(pw)) {
+				return m;
 			}
 		}
+		
 		return null;
-	}
-	
-	public ArrayList<Member> getMembers() {
-		return members;
+		
 	}
 }
