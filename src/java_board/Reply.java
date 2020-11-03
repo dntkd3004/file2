@@ -6,7 +6,7 @@ public class Reply {
 	private String body;
 	private String nickname;
 	private String regDate;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -37,6 +37,4 @@ public class Reply {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	
-	
 }
