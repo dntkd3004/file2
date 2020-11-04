@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class App {
 	
-	MemberDao memberdao = new MemberDao();
+	MemberDao memberDao = new MemberDao();
 	ArrayList<Article> articles;
 	ReplyDao replyDao = new ReplyDao();
 	ArticleDao articleDao = new ArticleDao();
@@ -101,6 +101,9 @@ public class App {
 						System.out.println("상세보기 기능을 선택해주세요(1. 댓글 등록, 2. 좋아요, 3. 수정, 4. 삭제, 5. 목록으로) : ");
 						int readCmd = Integer.parseInt(sc.nextLine());
 						if (readCmd == 1) {
+							if(!isLogin()) {
+								continue;
+							}
 							Reply r = new Reply();
 
 							System.out.println("댓글 내용을 입력해주세요:");
@@ -111,20 +114,29 @@ public class App {
 
 							replyDao.insertReply(r);
 							printArticle(target);
-						} if (readCmd == 2) {
-							
-							//좋아요 체크
-							Like like = likeDao.getLikeByArticleIdAndMemberId(target.getId(), loginedMember.getId());
-							
-								if(like == null) {
-									System.out.println("해당 게시물을 좋아합니다.");
-								} else {
-									System.out.println("해당 게시물의 좋아요를 해제합니다.");
-								}
-						} if (readCmd == 3) {	
-							if (!isLogin() || !isMyArticle(target)) {
-								continue;							
+						} if (readCmd == 2) {	
+							if(!isLogin()) {
+								continue;
 							}
+							//좋아요 체크
+							Like rst = likeDao.getLikeByArticleIdAndMemberId(target.getId(), loginedMember.getId());
+							
+							if(rst == null) {
+								Like like = new Like(target.getId(), loginedMember.getId());
+								likeDao.insertLike(like);
+								System.out.println("해당 게시물을 좋아합니다.");
+							} else {
+								//해제 - 삭제
+								likeDao.removeLike(rst);
+								System.out.println("해당 게시물의 좋아요를 해제합니다.");
+							}
+							
+							printArticle(target);
+						} if (readCmd == 3) {	
+							if(!isLogin() || !isMyArticle(target)) {
+								continue;
+							}
+
 							System.out.println("게시물 제목을 입력해주세요 :");
 							String newTitle = sc.nextLine();
 
@@ -133,12 +145,13 @@ public class App {
 
 							target.setTitle(newTitle);
 							target.setBody(newBody);
-							
+
 							printArticle(target);
 						} if (readCmd == 4) {
-							if (!isLogin() || !isMyArticle(target)) {
-								continue;							
-							} 
+							if(!isLogin() || !isMyArticle(target)) {
+								continue;
+							}
+
 							articleDao.removeArticle(target);
 							break;
 						} if (readCmd == 5) {
@@ -159,6 +172,17 @@ public class App {
 
 				printArticles(searchedArticles);
 			}
+			if(cmd.equals("sort")) {
+				System.out.println("정렬 대상을 선택해주세요. : ");
+				String keyword = sc.nextLine();
+				System.out.println("정렬 방법을 선택해주세요. : ");
+				String sortedCmd = sc.nextLine();
+				ArrayList<Article> sortedArticles;
+				
+				sortedArticles = articleDao.getSearchedArticlesByFlag(flag, keyword);
+
+				printArticles(sortedArticles);
+			}
 			if (cmd.equals("signup")) {
 				System.out.println("======== 회원가입을 진행합니다.========");
 				Member m = new Member();
@@ -175,7 +199,7 @@ public class App {
 				String nick = sc.nextLine();
 				m.setNickname(nick);
 
-				memberdao.insertMember(m);
+				memberDao.insertMember(m);
 				System.out.println("======== 회원가입이 완료되었습니다.========");
 			}
 			if (cmd.equals("signin")) {
@@ -184,7 +208,7 @@ public class App {
 				System.out.println("비밀번호 : ");
 				String pw = sc.nextLine();
 				
-				Member member = memberdao.getMemberBygetMemberByLoginIdAndLoginPw(id, pw);
+				Member member = memberDao.getMemberBygetMemberByLoginIdAndLoginPw(id, pw);
 				if(member == null) {
 					System.out.println("비밀번호를 틀렸거나 잘못된 회원정보입니다.");
 				} else {
@@ -206,11 +230,11 @@ public class App {
 			if (cmd.equals("findid")) {
 				System.out.println("[아이디 찾기]");
 			}
-			if (cmd.equals("myinfo")) {
+//			if (cmd.equals("myinfo")) {
 //				if (!isLogin() || !isMyArticle(target)) {
 //					continue;							
 //				} 
-			}
+//			}
 		}	
 	}
 	private void printArticles(ArrayList<Article> articleList) {
@@ -219,9 +243,11 @@ public class App {
 			System.out.println("번호 : " + article.getId());
 			System.out.println("제목 : " + article.getTitle());
 			System.out.println("등록날짜 : " + article.getRegDate());
-			Member regMember = memberdao.getMemberById(article.getMid());
+			Member regMember = memberDao.getMemberById(article.getMid());
 			System.out.println("작성자 : " + regMember.getNickname());
 			System.out.println("조회수 : " + article.getHit());
+			int likeCnt = likeDao.getLikeCount(article.getId());
+			System.out.println("좋아요 : " + likeCnt);
 			System.out.println("===================");
 		}
 	}
@@ -240,9 +266,11 @@ public class App {
 		System.out.println("제목 : " + target.getTitle());
 		System.out.println("내용 : " + target.getBody());
 		System.out.println("등록날짜 :" + target.getRegDate());
-		Member regMember = memberdao.getMemberById(target.getMid());
+		Member regMember = memberDao.getMemberById(target.getMid());
 		System.out.println("작성자 :" + regMember.getNickname());
 		System.out.println("조회수 :" + target.getHit());
+		int likeCnt = likeDao.getLikeCount(target.getId());
+		System.out.println("좋아요 : " + likeCnt);
 		System.out.println("===============");
 		System.out.println("================댓글==============");
 		

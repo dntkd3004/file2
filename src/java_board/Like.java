@@ -1,20 +1,23 @@
 package java_board;
 
 public class Like {
-	private int id;
-	private int parentId;
-	private int Likeflags;
-	private int checkMemberID;
-	private String regDate;
+	private int id;				//좋아요 번호
+	private int parentId;		//원글 번호	
+	private int memberId;		//체크유저번호
+	private String regDate;		//등록 날짜
 	
 	public Like() {
 		
 	}
-		
-	public Like(int parentId, int likeflags, int checkMemberID, String regDate) {
+	
+	public Like(int parentId, int memberId) {
 		this.parentId = parentId;
-		Likeflags = likeflags;
-		this.checkMemberID = checkMemberID;
+		this.memberId = memberId;
+	}
+
+	public Like(int parentId, int memberId, String regDate) {
+		this.parentId = parentId;
+		this.memberId = memberId;
 		this.regDate = regDate;
 	}
 
@@ -30,22 +33,15 @@ public class Like {
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-	public int getLikeflags() {
-		return Likeflags;
+	public int getMemberId() {
+		return memberId;
 	}
-	public void setLikeflags(int likeflags) {
-		Likeflags = likeflags;
-	}
-	public int getCheckMemberID() {
-		return checkMemberID;
-	}
-	public void setCheckMemberID(int checkMemberID) {
-		this.checkMemberID = checkMemberID;
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 	public String getRegDate() {
 		return regDate;
 	}
-
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}

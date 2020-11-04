@@ -73,7 +73,7 @@ public class Article {
 			}  else if(flag == 3) {
 				str = this.getTitle() + this.getBody(); 
 			}  else if(flag == 4) {
-				//str = this.getMid();	
+				//str = this.getMid() + "";	
 			}
 			
 			return str;
