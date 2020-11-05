@@ -173,6 +173,7 @@ public class App {
 				printArticles(searchedArticles);
 			}
 			if(cmd.equals("sort")) {
+				ArrayList<Article> sortlist = new ArrayList();
 				System.out.println("정렬 대상을 선택해주세요. : ");
 				String keyword = sc.nextLine();
 				System.out.println("정렬 방법을 선택해주세요. : ");
@@ -222,7 +223,6 @@ public class App {
 				}
 				loginedMember = null;
 				System.out.println("로그아웃 되셨습니다.");
-				
 			}
 			if (cmd.equals("findpass")) {
 				System.out.println("[비밀번호 찾기]");
@@ -230,11 +230,9 @@ public class App {
 			if (cmd.equals("findid")) {
 				System.out.println("[아이디 찾기]");
 			}
-//			if (cmd.equals("myinfo")) {
-//				if (!isLogin() || !isMyArticle(target)) {
-//					continue;							
-//				} 
-//			}
+			if (cmd.equals("myinfo")) {
+				System.out.println("나의 정보 확인및 수정");
+			}
 		}	
 	}
 	private void printArticles(ArrayList<Article> articleList) {
