@@ -1,6 +1,8 @@
 package java_board;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class App {
@@ -173,16 +175,16 @@ public class App {
 				printArticles(searchedArticles);
 			}
 			if(cmd.equals("sort")) {
-				ArrayList<Article> sortlist = new ArrayList();
-				System.out.println("정렬 대상을 선택해주세요. : ");
-				String keyword = sc.nextLine();
-				System.out.println("정렬 방법을 선택해주세요. : ");
-				String sortedCmd = sc.nextLine();
-				ArrayList<Article> sortedArticles;
-				
-				sortedArticles = articleDao.getSearchedArticlesByFlag(flag, keyword);
-
-				printArticles(sortedArticles);
+				System.out.println("정렬 대상을 선택해주세요. (like : 좋아요, hit : 조회수) :");
+				String sortType = sc.nextLine();
+				System.out.println("정렬 방법을 선택해주세요. (asc : 오름차순, desc : 내림차순) :");
+				String sortOrder = sc.nextLine();
+				MyComparator comp = new MyComparator();
+				comp.sortOrder = sortOrder;
+				//조회수로 오름차순
+				ArrayList<Article> articles = articleDao.getArticles();
+				Collections.sort(articles, comp);
+				printArticles(articles);
 			}
 			if (cmd.equals("signup")) {
 				System.out.println("======== 회원가입을 진행합니다.========");
@@ -292,5 +294,36 @@ public class App {
 		}
 
 		return true;
+	}
+}
+class MyComparator implements Comparator<Article> {
+
+	String sortOrder = "asc";
+	String sortType = "hit";
+	
+	@Override
+	public int compare(Article o1, Article o2) {
+		int c1 = 0;
+		int c2 = 0;
+		if(sortType.equals("hit")) {
+			//조화수 세팅
+			c1 = o1.getHit();
+			c2 = o2.getHit();	
+		} else if(sortType.equals("like")) {
+			//좋아요 세팅
+		}
+		
+		
+		if(sortOrder.equals("asc")) {
+			if(c1 > c2) {
+				return 1;
+			}
+			return -1;
+		} else {
+			if(c1 < c2) {
+				return 1;
+			}
+			return -1;
+		}
 	}
 }
