@@ -25,15 +25,15 @@ public class App {
 			}
 			
 			String cmd = sc.nextLine();
-			if (cmd.equals("exit")) {
+			if(cmd.equals("exit")) {
 				System.out.println("종료");
 				break;
 			}
-			if (cmd.equals("help")) {
+			if(cmd.equals("help")) {
 				System.out.println("article [add: 게시물 추가 / list : 게시물 목록 조회 / read : 게시물 조회 / search : 검색]");
 				System.out.println("member [signup : 회원가입 / signin : 로그인 / findpass : 비밀번호 찾기 / findid : 아이디 찾기 / logout : 로그아웃 / myinfo : 나의 정보 확인및 수정]");
 			}
-			if (cmd.equals("add")) {
+			if(cmd.equals("add")) {
 				
 				if(!isLogin()) {
 					continue;
@@ -54,16 +54,16 @@ public class App {
 					System.out.println("게시물이 등록되었습니다.");	
 				}
 			}
-			if (cmd.equals("list")) {
+			if(cmd.equals("list")) {
 				ArrayList<Article> articles = articleDao.getArticles();
 				printArticles(articles);
 			}
-			if (cmd.equals("update")) {
+			if(cmd.equals("update")) {
 				
 				System.out.println("수정할 게시물 선택 : ");
 				int targetId = Integer.parseInt(sc.nextLine());
 				Article target = articleDao.getArticleById(targetId);
-				if (target == null) {
+				if(target == null) {
 					System.out.println("없는 게시물입니다.");
 				} else {
 					System.out.println("게시물 제목을 입력해주세요 :");
@@ -78,22 +78,22 @@ public class App {
 					break;
 				}
 			}
-			if (cmd.equals("delete")) {
+			if(cmd.equals("delete")) {
 				ArrayList<Article> articles = articleDao.getArticles();
 				System.out.println("삭제할 게시물 선택 : ");
 				int targetId = Integer.parseInt(sc.nextLine());
 				Article target = articleDao.getArticleById(targetId);
-				if (target == null) {
+				if(target == null) {
 					System.out.println("게시물이 존재하지 않습니다.");
 				} else {
 					articleDao.removeArticle(target);
 				}				
 			}
-			if (cmd.equals("read")) {
+			if(cmd.equals("read")) {
 				System.out.println("상세보기할 게시물 선택 : ");
 				int targetId = Integer.parseInt(sc.nextLine());
 				Article target = articleDao.getArticleById(targetId);
-				if (target == null) {
+				if(target == null) {
 					System.out.println("게시물이 존재하지 않습니다.");
 				} else {
 					target.setHit(target.getHit() + 1);
@@ -102,7 +102,7 @@ public class App {
 					while(true) {
 						System.out.println("상세보기 기능을 선택해주세요(1. 댓글 등록, 2. 좋아요, 3. 수정, 4. 삭제, 5. 목록으로) : ");
 						int readCmd = Integer.parseInt(sc.nextLine());
-						if (readCmd == 1) {
+						if(readCmd == 1) {
 							if(!isLogin()) {
 								continue;
 							}
@@ -116,7 +116,7 @@ public class App {
 
 							replyDao.insertReply(r);
 							printArticle(target);
-						} if (readCmd == 2) {	
+						} if(readCmd == 2) {	
 							if(!isLogin()) {
 								continue;
 							}
@@ -126,15 +126,17 @@ public class App {
 							if(rst == null) {
 								Like like = new Like(target.getId(), loginedMember.getId());
 								likeDao.insertLike(like);
-								System.out.println("해당 게시물을 좋아합니다.");
+								target.setLikeCnt(target.getLikeCnt() + 1);
+								System.out.println("해당 게시물을 좋아요를 체크합니다.");
 							} else {
 								//해제 - 삭제
 								likeDao.removeLike(rst);
+								target.setLikeCnt(target.getLikeCnt() - 1);
 								System.out.println("해당 게시물의 좋아요를 해제합니다.");
 							}
 							
 							printArticle(target);
-						} if (readCmd == 3) {	
+						} if(readCmd == 3) {	
 							if(!isLogin() || !isMyArticle(target)) {
 								continue;
 							}
@@ -149,21 +151,21 @@ public class App {
 							target.setBody(newBody);
 
 							printArticle(target);
-						} if (readCmd == 4) {
+						} if(readCmd == 4) {
 							if(!isLogin() || !isMyArticle(target)) {
 								continue;
 							}
 
 							articleDao.removeArticle(target);
 							break;
-						} if (readCmd == 5) {
+						} if(readCmd == 5) {
 							break;
 						}
 
 					}
 				}
 			}
-			if (cmd.equals("search")) {
+			if(cmd.equals("search")) {
 				System.out.println("검색 항목을 선택해주세요 (1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자) : ");
 				int flag = Integer.parseInt(sc.nextLine());
 				System.out.println("검색 키워드를 입력해주세요 : ");
@@ -181,12 +183,16 @@ public class App {
 				String sortOrder = sc.nextLine();
 				MyComparator comp = new MyComparator();
 				comp.sortOrder = sortOrder;
+				comp.sortType = sortType;
 				//조회수로 오름차순
 				ArrayList<Article> articles = articleDao.getArticles();
 				Collections.sort(articles, comp);
 				printArticles(articles);
 			}
-			if (cmd.equals("signup")) {
+			if(cmd.equals("page")) {
+				System.out.println("(prev : 이전, next : 다음, go : 선택, back : 뒤로가기)");
+			}
+			if(cmd.equals("signup")) {
 				System.out.println("======== 회원가입을 진행합니다.========");
 				Member m = new Member();
 
@@ -205,7 +211,7 @@ public class App {
 				memberDao.insertMember(m);
 				System.out.println("======== 회원가입이 완료되었습니다.========");
 			}
-			if (cmd.equals("signin")) {
+			if(cmd.equals("signin")) {
 				System.out.println("아이디 : ");
 				String id = sc.nextLine();
 				System.out.println("비밀번호 : ");
@@ -219,20 +225,20 @@ public class App {
 					System.out.println(loginedMember.getNickname()+"님 환영합니다!");
 				}
 			}
-			if (cmd.equals("signout")) {
+			if(cmd.equals("signout")) {
 				if(!isLogin()) {
 					continue;
 				}
 				loginedMember = null;
 				System.out.println("로그아웃 되셨습니다.");
 			}
-			if (cmd.equals("findpass")) {
+			if(cmd.equals("findpass")) {
 				System.out.println("[비밀번호 찾기]");
 			}
-			if (cmd.equals("findid")) {
+			if(cmd.equals("findid")) {
 				System.out.println("[아이디 찾기]");
 			}
-			if (cmd.equals("myinfo")) {
+			if(cmd.equals("myinfo")) {
 				System.out.println("나의 정보 확인및 수정");
 			}
 		}	
@@ -300,6 +306,7 @@ class MyComparator implements Comparator<Article> {
 
 	String sortOrder = "asc";
 	String sortType = "hit";
+	LikeDao likeDao = new LikeDao();
 	
 	@Override
 	public int compare(Article o1, Article o2) {
@@ -311,6 +318,8 @@ class MyComparator implements Comparator<Article> {
 			c2 = o2.getHit();	
 		} else if(sortType.equals("like")) {
 			//좋아요 세팅
+			c1 = o1.getLikeCnt();
+			c2 = o2.getLikeCnt();
 		}
 		
 		
