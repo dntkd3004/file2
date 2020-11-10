@@ -209,13 +209,15 @@ public class App {
 					} else if(pageCmd.equals("nextPage")) {
 						int currentPageBlock = pagination.getCurrentPageBlock();
 						pagination.setCurrentPageBlock(currentPageBlock + 1);
-						pagination.setCurrentPageNo(pagination.getStartIndex());
+						pagination.setCurrentPageNo(pagination.getStartPageNoInBlock());
 					} else if(pageCmd.equals("prevPage")) {
 						int currentPageBlock = pagination.getCurrentPageBlock();
 						pagination.setCurrentPageBlock(currentPageBlock - 1);
-						pagination.setCurrentPageNo(pagination.getStartIndex());
+						pagination.setCurrentPageNo(pagination.getStartPageNoInBlock());
 					} else if(pageCmd.equals("count")) {
-						System.out.println("출력할 게시물의 개수를 입력해주세요 :" + currentPageNo);
+						System.out.println("출력할 게시물의 개수를 입력해주세요 :" + count);
+						int count = Integer.parseInt(sc.nextLine());
+						pagination.setItemsCntPerPage(count);
 					} else if(pageCmd.equals("go")) {
 						currentPageNo = Integer.parseInt(sc.nextLine());
 						pagination.setCurrentPageNo(currentPageNo);
