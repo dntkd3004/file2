@@ -13,7 +13,6 @@ public class App {
 	ArticleDao articleDao = new ArticleDao();
 	LikeDao likeDao = new LikeDao();
 	Member loginedMember = null;
-	Pagination pagination = new Pagination();
 	
 	public void start() {
 		Scanner sc = new Scanner(System.in);
@@ -57,6 +56,7 @@ public class App {
 			}
 			if(cmd.equals("list")) {
 				ArrayList<Article> articles = articleDao.getArticles();
+				Pagination pagination = new Pagination();
 				printArticles(articles, pagination);
 			}
 			if(cmd.equals("update")) {
@@ -174,6 +174,7 @@ public class App {
 				
 				searchedArticles = articleDao.getSearchedArticlesByFlag(flag, keyword);
 
+				Pagination pagination = new Pagination();
 				printArticles(articles, pagination);
 			}
 			if(cmd.equals("sort")) {
@@ -187,6 +188,7 @@ public class App {
 				//조회수로 오름차순
 				ArrayList<Article> articles = articleDao.getArticles();
 				Collections.sort(articles, comp);
+				Pagination pagination = new Pagination();
 				printArticles(articles, pagination);
 			}
 			if(cmd.equals("page")) {
@@ -201,11 +203,13 @@ public class App {
 				while(true) {
 					System.out.println("페이징 명령어를 입려해주세요. (prev : 이전, next : 다음, prevPage : 이전페이지, nextPage : 다음페이지, count : 페이지당 게시물 수 go : 선택, back : 뒤로가기): ");
 					String pageCmd = sc.nextLine();
-					
 					if(pageCmd.equals("next")) {
 						pagination.setCurrentPageNo(pagination.getCurrentPageNo() + 1);
 					} else if(pageCmd.equals("prev")) {
 						pagination.setCurrentPageNo(pagination.getCurrentPageNo() - 1);
+					} else if(pageCmd.equals("go")) {
+						currentPageNo = Integer.parseInt(sc.nextLine());
+						pagination.setCurrentPageNo(currentPageNo);
 					} else if(pageCmd.equals("nextPage")) {
 						int currentPageBlock = pagination.getCurrentPageBlock();
 						pagination.setCurrentPageBlock(currentPageBlock + 1);
@@ -215,13 +219,10 @@ public class App {
 						pagination.setCurrentPageBlock(currentPageBlock - 1);
 						pagination.setCurrentPageNo(pagination.getStartPageNoInBlock());
 					} else if(pageCmd.equals("count")) {
-						System.out.println("출력할 게시물의 개수를 입력해주세요 :" + count);
 						int count = Integer.parseInt(sc.nextLine());
 						pagination.setItemsCntPerPage(count);
-					} else if(pageCmd.equals("go")) {
-						currentPageNo = Integer.parseInt(sc.nextLine());
-						pagination.setCurrentPageNo(currentPageNo);
-					} else if(pageCmd.equals("back")) {
+					}
+					else if(pageCmd.equals("back")) {
 						break;
 					}
 					printArticles(articles, pagination);

@@ -1,77 +1,108 @@
 package java_board;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Test4 {
 
 	public static void main(String[] args) {
+		//Json 읽기 (decoding)
+		String jsonStr = "[0,"+ "{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}" + "]";
+		JSONArray array = (JSONArray)JSONValue.parse(jsonStr); // 배열
 		
-		ArrayList<Article> articles = new ArrayList<>();
-		
-		for(int i = 1; i <= 50 ; i++) {
-			Article a1 = new Article();
-			a1.setId(i);
-			a1.setTitle("제목" + i);
-			a1.setBody("내용" + i);
-			
-			articles.add(a1);
-		}
-		
-		Scanner sc = new Scanner(System.in);
-		int currentPageNo = 123; // 현재 페이지
-		int totalCntOfItems = articles.size(); // 전체 게시물 개수
-		int startPageNo = 1; // 시작 페이지 번호
-		int itemsCntPerPage = 3; // 페이지당 출력 게시물 개수
-		int pageCntPerBlock = 5; // 한 페이지 블록 당 페이지 개수
-		int endPageNo = (int)Math.ceil((double)totalCntOfItems / itemsCntPerPage); // 마지막 페이지 번호
-		
-		// 현재 페이지가 시작페이지보다 작으면 안됨
-		if (currentPageNo < startPageNo) {
-			currentPageNo = startPageNo;
-		}
+	    System.out.println(array.get(1));
+	    System.out.println();
+	    
+	    JSONObject obj2 = (JSONObject)array.get(1);	//맵
+	    System.out.println("Field \"1\"");
+	    System.out.println(obj2.get("1"));
+	    
+	      JSONObject obj = new JSONObject();
+	      String jsonText;
+	      
+	      obj.put("name", "foo");
+	      obj.put("num", new Integer(100));
+	      obj.put("balance", new Double(1000.21));
+	      obj.put("is_vip", new Boolean(true));
+	      jsonText = obj.toString();
 
-		// 현재 페이지가 마지막페이지보다 크면 안됨
-		if (currentPageNo > endPageNo) {
-			currentPageNo = endPageNo; 
-		}
-		
-		int currentPageBlock = (int)Math.ceil((double)currentPageNo / pageCntPerBlock) ; // 현재 페이지 블록
-		int startPageNoInBlock = (currentPageBlock - 1) * pageCntPerBlock + 1 ; // 현재 페이지 블록의 시작 페이지 번호
-		int endPageNoInBlock = startPageNoInBlock + pageCntPerBlock - 1;// // 현재 페이지 블록의 마지막 페이지 번호
+	      System.out.println("Encode a JSON Object - to String");
+	      System.out.print(jsonText);
+	    
+//	    //Json 쓰기 (encoding)
+//	    JSONObject list = new JSONObject();
+//	    String jsonText;
+//
+//	    list.add(1);
+//	    list.add(2);
+//	    list.add(3);
+//	    list.add(4);
+//	    list.add(5);
+//	    jsonText = list.toString();
+//	    
+//	    System.out.println("Encode a JSON Object - to String");
+//	    System.out.print(jsonText);
+//	    
+//	    JSONArray array = (JSONArray)JSONValue.parse(jsonText);
+//	    
+//	    for(int i = 0; i < array.size(); i++) {
+//	    	long s1 = (long)array.get(0);
+//	    	System.out.println(s1);
+//	    }
+	    
+	    // 파일쓰기
+	      try{
+	            //파일 객체 생성
+	            File file = new File("C:test/article1.json");
+	            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+	            
+	            if(file.isFile() && file.canWrite()){
+	                //쓰기
+	                bufferedWriter.write("문자열 추가1");
+	                //개행문자쓰기
+	                bufferedWriter.newLine();
+	                bufferedWriter.write("문자열 추가2");
+	                
+	                bufferedWriter.close();
+	            }
+	        }catch (IOException e) {
+	            System.out.println(e);
+	        }
 
-		// 페이지 번호가 마지막 페이지를 넘으면 안됨
-		if(endPageNoInBlock > endPageNo) {
-			endPageNoInBlock = endPageNo;
-		}
-		
-		// 해당 페이지의 게시물 목록의 첫 인덱스
-		int startIndex = (currentPageNo - 1) * itemsCntPerPage;
-		
-		// 해당 페이지의 게시물 목록의 마지막 인덱스
-		int endIndex = startIndex + itemsCntPerPage;
-		
-		// 페이지의 마지막 인덱스가 저장소의 마지막 인덱스보다 크면 안됨
-		if(endIndex > totalCntOfItems) {
-			endIndex = totalCntOfItems;
-		}
-		// 페이지별 게시물 출력
-		for(int i = startIndex; i < endIndex; i++) {
-			System.out.println("번호 : " + articles.get(i).getId());
-			System.out.println("제목 : " + articles.get(i).getTitle());
-			System.out.println("내용 : " + articles.get(i).getBody());
-			System.out.println("======================================");
-		}
-		
-		// 페이지 블록 출력
-		for(int i = startPageNoInBlock ; i <= endPageNoInBlock; i++ ) {
-			
-			if(i == currentPageNo) {
-				System.out.print("[" + i+ "] ");
-			} else {
-				System.out.print(i+ " ");
-			}
-		}
+	      //파일읽기
+	      String result = "";
+	      try{
+	            //파일 객체 생성
+	            File file = new File("C:test/article1.json");
+	            //입력 스트림 생성
+	            FileReader filereader = new FileReader(file);
+	            //입력 버퍼 생성
+	            BufferedReader bufReader = new BufferedReader(filereader);
+	            String line = "";
+	            while((line = bufReader.readLine()) != null){
+	                System.out.println(line);
+	            }
+	            //.readLine()은 끝에 개행문자를 읽지 않는다.            
+	            bufReader.close();
+	        }catch (FileNotFoundException e) {
+	            // TODO: handle exception
+	        }catch(IOException e){
+	            System.out.println(e);
+	        }
+	      System.out.println("json 파일 읽기 완료");
+	      System.out.println(result);
+	      
+	      JSONObject jobj = (JSONObject)JSONValue.parse();
+	      
+	      String title = (String)jobj.get("title");
+	      String body = (String)jobj.get("bodty");
+	      
+	      System.out.println(title);
+	      System.out.println(body);
 	}
-
 }
